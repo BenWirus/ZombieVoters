@@ -5,7 +5,20 @@ Then uses that data to determine if dead people are registered to vote.
 
 ## Voter lookup support
 
+### Implemented 
+
 * Michigan
+
+### Investigating
+
+* Georgia
+* North Carolina
+* Nevada
+* Pennsylvania
+
+### Not Possible
+
+* Arizona - [Drivers License or Voter ID # required to look up at](https://my.arizona.vote/WhereToVote.aspx?s=individual&Language=en)
 
 need to add more
 
