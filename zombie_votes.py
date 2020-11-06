@@ -32,6 +32,8 @@ def hunt_mi_zombies():
                         dead_file = pathlib.Path(os.path.join('output/checked/dead/', result_file))
                         zombie_file = pathlib.Path(os.path.join('output/checked/zombies/', result_file))
                         zombie_json_file = False
+                        zombie_json_voted_file = False
+                        zombie_html_voted_file = False
 
                         if not dead_file.is_file() and not zombie_file.is_file():
                             sleep(2)
@@ -57,9 +59,16 @@ def hunt_mi_zombies():
                                         + ' '
                                         + person['last_residence']['zip']
                                     )
+
                                     output_file = zombie_file
                                     zombie_json_file = os.path.join('output/checked/zombies/',
                                                                     result_file_slug + '.json')
+
+                                    if michigan.has_voted(response_html):
+                                        zombie_json_voted_file = os.path.join('output/checked/voted/',
+                                                                              result_file_slug + '.json')
+                                        zombie_html_voted_file = os.path.join('output/checked/voted/',
+                                                                              result_file_slug + '.html')
                                 else:
                                     output_file = dead_file
 
@@ -70,6 +79,15 @@ def hunt_mi_zombies():
                                 if zombie_json_file:
                                     with open(zombie_json_file, "w") as json_file_out:
                                         json.dump(person, json_file_out, indent=3, sort_keys=True)
+
+                                if zombie_json_voted_file:
+                                    with open(zombie_json_voted_file, "w") as json_file_out:
+                                        json.dump(person, json_file_out, indent=3, sort_keys=True)
+
+                                if zombie_html_voted_file:
+                                    with open(zombie_html_voted_file, "w") as text_file:
+                                        print('Saving file ' + text_file.name)
+                                        text_file.write(response_html)
 
 
 def main(argv):

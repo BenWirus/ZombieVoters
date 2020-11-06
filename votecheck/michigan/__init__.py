@@ -11,6 +11,12 @@ def is_registered(html):
     return False
 
 
+def has_voted(html):
+    if 'Ballot received' in html:
+        return True
+    return False
+
+
 def get_reg_status(first_name: str, last_name: str, birth_month: int, birth_year: int, zip_code: str):
     requests.packages.urllib3.disable_warnings(requests.packages.urllib3.exceptions.InsecureRequestWarning)
     url = 'https://mvic.sos.state.mi.us/Voter/SearchByName'
