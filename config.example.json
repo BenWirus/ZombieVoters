@@ -2,5 +2,6 @@
   "username": "",
   "password": "",
   "max_year": 2014,
-  "max_page": 250
+  "max_page": 250,
+  "page_cooldown_sec": 1
 }
