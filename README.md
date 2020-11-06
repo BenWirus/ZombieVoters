@@ -1,6 +1,7 @@
 # Zombie Voter Hunter
 
 A set of scripts that downloads death indexes from ancestry.com. 
+
 Then uses that data to determine if dead people are registered to vote.
 
 ## Voter lookup support
@@ -57,9 +58,13 @@ The example below will download death data from the social security death index 
 ## Find zombies
 
 The example below will poll voter registration websites and look up dead people to see if they are registered to vote.
+
 The results will be stored in `output/checked/` there will be three folders. `dead`, `zombies`, and `voted`.
+
 The `zombies` folder contains info on dead people who are registered to vote.
+
 The `voted` folder contains info on dead people who likely submitted a ballot.
+
 The `dead` folder contains everyone else. (Keep these as a way to prevent duplicating your checks).
 
 ```
@@ -71,5 +76,7 @@ In this example we are specifying that we are looking up michigan voters with th
 # Helping & Improvements
 
 If you'd like to help this project would benefit from more regional voter lookups.
+
 It would also benefit from a way to look up deaths that does not require a payed ancestry.com account.
+
 The code is kind of a mess, I wrote this in a few hours to get results ASAP. It could use some polish.
