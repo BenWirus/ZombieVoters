@@ -4,6 +4,19 @@ A set of scripts that downloads death indexes from ancestry.com.
 
 Then uses that data to determine if dead people are registered to vote.
 
+# Why
+
+The purpose of this project is not to prove that there is voter fraud to help any political candidate or party.
+
+The purpose of this is to test the claims that there is or is not dead people voting.
+
+The goal is to provide tangible proof that this either is or is not happening and put an end to hyperbolic claims from all sides.
+
+If dead folks are voting, that presents a clear danger to our republic.
+If it is not happening and baseless accusations are made, confidence in our democratic institutions will fade, presenting another danger to our republic.
+
+So in short the goal is to put baseless claims that it is or is not happening aside, and get to the facts.
+
 ## Voter lookup support
 
 ### Implemented 
