@@ -3,6 +3,7 @@
 from selenium import webdriver
 from nameparser import HumanName
 from time import sleep
+import selenium.common.exceptions
 import dateparser
 import sys
 import getopt
@@ -113,11 +114,31 @@ def scrape(chrome: webdriver.Chrome, page: int, year: int, county: str, state: s
         record = {'link': link}
         chrome.get(link)
         sleep(page_cooldown_sec)
+        hit_a_recaptcha = False
+
+        try:
+            if chrome.find_element_by_id('main-iframe'):
+                hit_a_recaptcha = True
+                print('Waiting for recaptcha to be filled out...')
+
+            while chrome.find_element_by_id('main-iframe'):
+                # Wait for the recaptcha to be dealt with
+                sleep(1)
+        except selenium.common.exceptions.NoSuchElementException:
+            pass
+
+        if hit_a_recaptcha:
+            # Request the url again
+            chrome.get(link)
+
         for row in chrome.find_elements_by_xpath("//tr"):
             record = parse_row(str(row.text), record, county)
 
-        if record['last_residence']['zip']:
-            records.append(record)
+        try:
+            if record['last_residence']['zip']:
+                records.append(record)
+        except KeyError:
+            pass
 
     return records
 
