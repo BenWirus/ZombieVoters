@@ -1,15 +1,3 @@
-# OP Banned
-
-They banned me for posting this project.
-
-```
-Error: Ban evasion. Your original ban was for violating Global 4 - Personal Information/Invasion/Raid
-```
-
-The reason is BS. The project does not contain any personal information.
-The only way you can get the information is by paying for an ancestry account.
-Even then the social security admin deems the info public enough to let ancestry show it's users.
-
 # Zombie Voter Hunter
 
 A set of scripts that downloads death indexes from ancestry.com. 
