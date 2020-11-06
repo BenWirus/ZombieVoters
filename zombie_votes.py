@@ -3,8 +3,17 @@
 import pathlib
 import os
 import json
+import sys
+import getopt
 from time import sleep
 from votecheck import michigan
+
+
+def print_help():
+    print('Look up Michigan voters')
+    print('zombie_votes.py --mi')
+    print('zombie_votes.py --michigan')
+    print('')
 
 
 def hunt_mi_zombies():
@@ -63,4 +72,19 @@ def hunt_mi_zombies():
                                         json.dump(person, json_file_out, indent=3, sort_keys=True)
 
 
-hunt_mi_zombies()
+def main(argv):
+    try:
+        opts, args = getopt.getopt(argv, "h", ["mi", "michigan"])
+    except getopt.GetoptError:
+        print('zombie_votes.py --mi')
+        sys.exit(2)
+    for opt, arg in opts:
+        if opt == '-h':
+            print_help()
+            sys.exit()
+        elif opt in ("--mi", "--michigan"):
+            hunt_mi_zombies()
+
+
+if __name__ == "__main__":
+    main(sys.argv[1:])

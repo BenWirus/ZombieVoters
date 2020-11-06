@@ -37,7 +37,7 @@ def login(chrome: webdriver.Chrome, username: str, password: str):
     login_button.click()
 
 
-def parse_row(row: str, record: dict):
+def parse_row(row: str, record: dict, county: str):
     entry = row.split(':')
     if entry[0].strip() == 'Name':
         entry.pop(0)
@@ -77,7 +77,8 @@ def parse_row(row: str, record: dict):
 
         addr = {
             'zip': zip,
-            'original': original
+            'original': original,
+            'county': county
         }
 
         record['last_residence'] = addr
@@ -113,7 +114,7 @@ def scrape(chrome: webdriver.Chrome, page: int, year: int, county: str, state: s
         chrome.get(link)
         sleep(page_cooldown_sec)
         for row in chrome.find_elements_by_xpath("//tr"):
-            record = parse_row(str(row.text), record)
+            record = parse_row(str(row.text), record, county)
 
         if record['last_residence']['zip']:
             records.append(record)

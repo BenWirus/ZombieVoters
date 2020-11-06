@@ -61,8 +61,10 @@ The results will be stored in `output/checked/` there will be two folders. `dead
 The `zombies` folder contains info on dead people who are registered to vote.
 
 ```
-./zombie_votes.py
+./zombie_votes.py --mi
 ```
+
+In this example we are specifying that we are looking up michigan voters with the `--mi` option.
 
 # Helping & Improvements
 
