@@ -233,5 +233,6 @@ $RECYCLE.BIN/
 *.lnk
 
 chromedriver
+chromedriver.exe
 *.zip
 config.json
