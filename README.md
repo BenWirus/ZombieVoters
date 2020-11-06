@@ -15,7 +15,7 @@ The goal is to provide tangible proof that this either is or is not happening an
 If dead folks are voting, that presents a clear danger to our republic.
 If it is not happening and baseless accusations are made, confidence in our democratic institutions will fade, presenting another danger to our republic.
 
-So in short the goal is to put baseless claims that it is or is not happening aside, and get to the facts.
+So in short the goal is to put baseless claims that it is or is not happening aside, and get to the facts. Hopefully all Americans would like to put this debate to rest.
 
 ## Voter lookup support
 
