@@ -1,6 +1,6 @@
 # Zombie Voter Hunter
 
-A set of scripts that downloads death indexes from ancestry.com (payed subscription). 
+A set of scripts that downloads death indexes from ancestry.com (payed subscription / 14 day trial). 
 
 Then uses that data to determine if dead people are registered to vote.
 
