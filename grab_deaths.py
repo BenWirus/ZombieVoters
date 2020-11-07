@@ -2,7 +2,7 @@
 
 from selenium import webdriver
 from nameparser import HumanName
-from time import sleep
+from votecheck import random_sleep
 import selenium.common.exceptions
 import dateparser
 import sys
@@ -101,7 +101,7 @@ def scrape(chrome: webdriver.Chrome, page: int, year: int, county: str, state: s
     url = 'https://www.ancestry.com/search/collections/3693/?pg=' + str(page) + '&residence=' + \
           str(year) + '_' + county + '-' + state + '-usa&residence_x=_1-0'
     chrome.get(url)
-    sleep(2)
+    random_sleep(1, 2)
     hrefs = chrome.find_elements_by_xpath("//a[@href]")
     links = []
     records = []
@@ -113,7 +113,7 @@ def scrape(chrome: webdriver.Chrome, page: int, year: int, county: str, state: s
     for link in links:
         record = {'link': link}
         chrome.get(link)
-        sleep(page_cooldown_sec)
+        random_sleep(1, 5)
         hit_a_recaptcha = False
         show_waiting_message = True
 
@@ -121,7 +121,7 @@ def scrape(chrome: webdriver.Chrome, page: int, year: int, county: str, state: s
             if chrome.find_element_by_id('main-iframe'):
                 hit_a_recaptcha = True
                 print('Hit a recaptcha waiting for 10 seconds and then tying again.')
-                sleep(10)
+                random_sleep(8, 10)
                 chrome.get(link)
 
             while chrome.find_element_by_id('main-iframe'):
@@ -129,7 +129,7 @@ def scrape(chrome: webdriver.Chrome, page: int, year: int, county: str, state: s
                 if show_waiting_message:
                     print('Waiting for recaptcha to be filled out...')
                     show_waiting_message = False
-                sleep(1)
+                random_sleep(1, 2)
         except selenium.common.exceptions.NoSuchElementException:
             pass
 
@@ -149,29 +149,43 @@ def scrape(chrome: webdriver.Chrome, page: int, year: int, county: str, state: s
     return records
 
 
-def run(year: int, page: int, county: str, state: str):
-    config = read_config()
-    max_year = int(config['max_year'])
-    max_page = int(config['max_page'])
+def process_year(
+        page: int,
+        max_page: int,
+        year: int,
+        max_year: int,
+        county: str,
+        state: str,
+        page_cooldown_sec: int,
+        chrome: webdriver.Chrome
+):
     print(
         'Scraping death records from ' + str(year) + ' - ' + str(max_year) + ' for ' + county + ' county ' + state +
         '. ' + 'Starting at page ' + str(page) + ' ending at page ' + str(max_page) + '.'
     )
+    while page <= max_page:
+        page_results = scrape(chrome, page, year, county, state, page_cooldown_sec)
+        save_results(page_results, county, state, year, page)
+        page += 1
+
+
+def run(year: int, page: int, county: str, state: str):
+    config = read_config()
+    max_year = int(config['max_year'])
+    max_page = int(config['max_page'])
+    page_cooldown_sec = int(config['page_cooldown_sec'])
+
     chrome = webdriver.Chrome('./chromedriver')
     chrome.maximize_window()
     login(chrome, config['username'], config['password'])
-    sleep(2)
+    random_sleep(2, 3)
 
     # Main loop
     while year <= max_year:
-        # Hack to get this to progress to the next year
-        if page == max_page:
-            page = 1
-        while page <= max_page:
-            page_results = scrape(chrome, page, year, county, state, config['page_cooldown_sec'])
-            save_results(page_results, county, state, year, page)
-            page += 1
+        process_year(page, max_page, year, max_year, county, state, page_cooldown_sec, chrome)
+        page = 1
         year += 1
+        random_sleep(1, 3)
 
     chrome.close()
     exit()

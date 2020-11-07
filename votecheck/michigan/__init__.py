@@ -1,8 +1,8 @@
 import requests
-from time import sleep
 from requests.packages.urllib3.util.retry import Retry
 from random_user_agent.user_agent import UserAgent
 from random_user_agent.params import SoftwareName, OperatingSystem
+from votecheck import random_sleep
 
 
 def is_registered(html):
@@ -57,6 +57,6 @@ def get_reg_status(first_name: str, last_name: str, birth_month: int, birth_year
             return resp.text
         except Exception:
             if tries <= max_tries:
-                sleep(2)
+                random_sleep(1, 3)
             else:
                 return False
