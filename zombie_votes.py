@@ -5,7 +5,6 @@ import os
 import json
 import sys
 import getopt
-import htmlmin
 from time import sleep
 from votecheck import michigan
 
@@ -73,7 +72,14 @@ def hunt_mi_zombies():
                                 else:
                                     output_file = dead_file
 
-                                response_html = htmlmin.minify(response_html)
+                                try:
+                                    # Slim down the HTML
+                                    response_html = response_html.strip() \
+                                        .replace('\n', ' ') \
+                                        .replace('\t', ' ') \
+                                        .replace('\r', ' ')
+                                except SyntaxError as e:
+                                    pass
 
                                 with open(output_file, "w") as text_file:
                                     print('Saving file ' + text_file.name)
