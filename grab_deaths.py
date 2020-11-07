@@ -124,6 +124,14 @@ def scrape(chrome: webdriver.Chrome, page: int, year: int, county: str, state: s
                 random_sleep(8, 10)
                 chrome.get(link)
 
+                if chrome.find_element_by_id('main-iframe'):
+                    random_sleep(10, 20)
+                    chrome.get(link)
+
+                if chrome.find_element_by_id('main-iframe'):
+                    random_sleep(15, 30)
+                    chrome.get(link)
+
             while chrome.find_element_by_id('main-iframe'):
                 # Wait for the recaptcha to be dealt with
                 if show_waiting_message:
