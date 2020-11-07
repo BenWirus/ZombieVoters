@@ -121,7 +121,7 @@ def scrape(chrome: webdriver.Chrome, page: int, year: int, county: str, state: s
             if chrome.find_element_by_id('main-iframe'):
                 hit_a_recaptcha = True
                 print('Hit a recaptcha waiting for 10 seconds and then tying again.')
-                random_sleep(8, 10)
+                random_sleep(5, 10)
                 chrome.get(link)
 
                 if chrome.find_element_by_id('main-iframe'):
@@ -129,7 +129,7 @@ def scrape(chrome: webdriver.Chrome, page: int, year: int, county: str, state: s
                     chrome.get(link)
 
                 if chrome.find_element_by_id('main-iframe'):
-                    random_sleep(15, 30)
+                    random_sleep(1, 30)
                     chrome.get(link)
 
             while chrome.find_element_by_id('main-iframe'):
