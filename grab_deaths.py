@@ -115,14 +115,20 @@ def scrape(chrome: webdriver.Chrome, page: int, year: int, county: str, state: s
         chrome.get(link)
         sleep(page_cooldown_sec)
         hit_a_recaptcha = False
+        show_waiting_message = True
 
         try:
             if chrome.find_element_by_id('main-iframe'):
                 hit_a_recaptcha = True
-                print('Waiting for recaptcha to be filled out...')
+                print('Hit a recaptcha waiting for 10 seconds and then tying again.')
+                sleep(10)
+                chrome.get(link)
 
             while chrome.find_element_by_id('main-iframe'):
                 # Wait for the recaptcha to be dealt with
+                if show_waiting_message:
+                    print('Waiting for recaptcha to be filled out...')
+                    show_waiting_message = False
                 sleep(1)
         except selenium.common.exceptions.NoSuchElementException:
             pass
