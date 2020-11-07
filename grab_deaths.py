@@ -19,7 +19,7 @@ def read_config():
 def save_results(results, county, state, year, page):
     path = 'output/deaths/' + state + '_' + county + '_' + str(year) + '_' + str(page) + '.json'
     with open(path, 'w') as outfile:
-        json.dump(results, outfile, indent=3, sort_keys=True)
+        json.dump(results, outfile)
     print('Saved results: ' + path)
 
 

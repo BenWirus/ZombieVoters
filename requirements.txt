@@ -3,5 +3,6 @@ address-parser~=1.0.0
 dateparser~=1.0.0
 nameparser~=1.0.6
 phonetics~=1.0.5
-requests~=2.7.0
+requests~=2.24.0
 random-user-agent~=1.0.1
+htmlmin~=0.1.12

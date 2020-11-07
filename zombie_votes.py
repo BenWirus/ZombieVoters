@@ -5,6 +5,7 @@ import os
 import json
 import sys
 import getopt
+import htmlmin
 from time import sleep
 from votecheck import michigan
 
@@ -72,17 +73,19 @@ def hunt_mi_zombies():
                                 else:
                                     output_file = dead_file
 
+                                response_html = htmlmin.minify(response_html)
+
                                 with open(output_file, "w") as text_file:
                                     print('Saving file ' + text_file.name)
                                     text_file.write(response_html)
 
                                 if zombie_json_file:
                                     with open(zombie_json_file, "w") as json_file_out:
-                                        json.dump(person, json_file_out, indent=3, sort_keys=True)
+                                        json.dump(person, json_file_out)
 
                                 if zombie_json_voted_file:
                                     with open(zombie_json_voted_file, "w") as json_file_out:
-                                        json.dump(person, json_file_out, indent=3, sort_keys=True)
+                                        json.dump(person, json_file_out)
 
                                 if zombie_html_voted_file:
                                     with open(zombie_html_voted_file, "w") as text_file:
