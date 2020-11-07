@@ -164,6 +164,9 @@ def run(year: int, page: int, county: str, state: str):
 
     # Main loop
     while year <= max_year:
+        # Hack to get this to progress to the next year
+        if page == max_page:
+            page = 1
         while page <= max_page:
             page_results = scrape(chrome, page, year, county, state, config['page_cooldown_sec'])
             save_results(page_results, county, state, year, page)
