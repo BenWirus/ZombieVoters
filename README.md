@@ -102,3 +102,10 @@ If you'd like to help this project would benefit from more regional voter lookup
 It would also benefit from a way to look up deaths that does not require a payed ancestry.com account.
 
 The code is kind of a mess, I wrote this in a few hours to get results ASAP. It could use some polish.
+
+# Mirrors
+
+* https://github.com/BenWirus/ZombieVoters <-- primary
+* https://gitlab.com/BenWirus/ZombieVoters
+* https://bitbucket.org/BenWirus/zombievoters
+* https://git.sr.ht/~benwirus/ZombieVoters
