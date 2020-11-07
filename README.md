@@ -53,6 +53,15 @@ Download chromedriver [for your Chrome version & OS](https://chromedriver.chromi
 
 Extract the zip and place the binary in the root of the project directory.
 
+# Update
+
+```bash
+git pull;
+pip3 install -r requirements.txt
+```
+
+Check `config.example.json` for any changes by comparing it with your local `config.json`.
+
 # Usage
 
 ## Download deaths example
