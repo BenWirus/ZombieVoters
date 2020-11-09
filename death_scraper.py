@@ -1,6 +1,6 @@
 #! /usr/bin/env python3
 
-from votecheck import read_json_file, ssdi_scraper
+from votecheck import ssdi_scraper
 import sys
 import getopt
 import zipcodes
