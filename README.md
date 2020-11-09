@@ -49,8 +49,6 @@ pip3 install -r requirements.txt
 cp config.example.json config.json 
 ```
 
-Edit `config.json` and set the browser that you will be using.
-
 Obtain a `bearer_token` and `guest_id` from myheritage:
 
 * Open your browser and visit [https://www.myheritage.com/research](https://www.myheritage.com/research).
@@ -59,7 +57,8 @@ Obtain a `bearer_token` and `guest_id` from myheritage:
 * Look for the XHR request `/search_in_historical_records/` and click on it & stay in the `Headers` tab in the right pane.
 * Scroll down in the headers tab and look for the POST data section, you'll see `Form Data`.
 * Copy the values of `bearer_token` & `guest_id`. Then paste their values in their respective spots in the `config.json` file.
-* Save your config file.
+
+Make any adjustments you'd like to `config.json`.
 
 # Update
 
@@ -86,6 +85,8 @@ The example below will download death data from the social security death index 
 ```
 
 ## Find zombies
+
+### WIP
 
 **This functionality is broken right now, it needs to be updated to work with the new death data directory structure and file format.**
 
