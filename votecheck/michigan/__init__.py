@@ -1,8 +1,6 @@
 import requests
 from requests.packages.urllib3.util.retry import Retry
-from random_user_agent.user_agent import UserAgent
-from random_user_agent.params import SoftwareName, OperatingSystem
-from votecheck import random_sleep
+from votecheck import random_sleep, get_user_agent
 
 
 def is_registered(html):
@@ -19,15 +17,9 @@ def has_voted(html):
     return False
 
 
-def get_user_agent():
-    software_names = [SoftwareName.CHROME.value, SoftwareName.FIREFOX.value, SoftwareName.EDGE.value]
-    operating_systems = [OperatingSystem.WINDOWS.value, OperatingSystem.MACOS.value]
-    user_agent_rotator = UserAgent(software_names=software_names, operating_systems=operating_systems, limit=100)
-    return user_agent_rotator.get_random_user_agent()
-
-
 def get_reg_status(first_name: str, last_name: str, birth_month: int, birth_year: int, zip_code: str):
     requests.packages.urllib3.disable_warnings(requests.packages.urllib3.exceptions.InsecureRequestWarning)
+
     url = 'https://mvic.sos.state.mi.us/Voter/SearchByName'
 
     headers = {
