@@ -33,6 +33,12 @@ def send_request(proxies: dict, location: dict, birth_year: int, death_year: int
             guest_id = config['myheritage']['guest_id']
         return send_request(proxies, location, birth_year, death_year, offset, guest_id, new_token, useragent)
 
+    if response.status_code == 429:
+        print('We\'ve been sending too many requests backing off for a bit...', end=' ')
+        time.sleep(60)
+        print('Attempting to resume')
+        return send_request(proxies, location, birth_year, death_year, offset, guest_id, bearer_token, useragent)
+
     return response
 
 
