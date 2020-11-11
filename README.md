@@ -86,25 +86,11 @@ The example below will download death data from the social security death index 
 
 ## Find zombies
 
-### WIP
+The script will automatically check the dead person's information against supported voter registration websites.
 
-**This functionality is broken right now, it needs to be updated to work with the new death data directory structure and file format.**
-
-The example below will poll voter registration websites and look up dead people to see if they are registered to vote.
-
-The results will be stored in `output/checked/` there will be three folders. 
-
-The `registered` folder contains info on dead people who are registered to vote.
-
-The `voted` folder contains info on dead people who likely submitted a ballot.
-
-The `dead` folder contains everyone else. (Keep these as a way to prevent duplicating your checks).
-
-```
-./zombie_votes.py --mi
-```
-
-In this example we are specifying that we are looking up michigan voters with the `--mi` option.
+The output will be stored in `output/checked/`. From there there are two sub-folders, `dead` and `zombies`.
+If the person did not vote or is not registered the info will be stored in the `dead` folder.
+If they sent a ballot in the info will be stored in `zombies/balloted` if they are just registered it their info will be in `zombies/registered`.
 
 # Helping & Improvements
 

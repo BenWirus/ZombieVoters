@@ -13,6 +13,20 @@ def random_sleep(min_sec: int = 0, max_sec: int = 1):
     sleep(sec)
 
 
+def is_registered(html):
+    # registered = '<span class="ccd-page-heading">Yes, you are registered!</span>'
+    registered = 'Yes, you are registered!'
+    if registered in html:
+        return True
+    return False
+
+
+def has_voted(html):
+    if 'Ballot received' in html:
+        return True
+    return False
+
+
 def read_json_file(file: str):
     with open(file) as json_file:
         return json.load(json_file)

@@ -2,6 +2,7 @@ from nameparser import HumanName
 from votecheck import random_sleep, get_proxy, get_user_agent, format_proxies_for_requests, calculate_pagination, \
     save_results, read_results, read_json_file
 from votecheck.ssdi_scraper.utils import send_request, get_segment, put_segment
+from votecheck import michigan
 from proxyscrape import create_collector
 import dateparser
 import json
@@ -47,7 +48,7 @@ def begin(locations: list, start_year: int = 1900, end_year: int = 2014):
                     if total > 0:  # At least one page of data
                         print('processing page 0...', end=' ')
                         records = data['data']['search_query_upload']['response']['results']['data']
-                        process_results(records, location, death_year, birth_year)
+                        process_results(records, location, death_year, birth_year, user_agent)
 
                         if total > per_page:  # Handle multiple pages of data
                             pages = calculate_pagination(per_page, total)
@@ -67,7 +68,7 @@ def begin(locations: list, start_year: int = 1900, end_year: int = 2014):
                                     print('processing page ' + str(page['page']) + '...', end=' ')
                                     data = json.loads(result.text)
                                     records = data['data']['search_query_upload']['response']['results']['data']
-                                    process_results(records, location, death_year, birth_year)
+                                    process_results(records, location, death_year, birth_year, user_agent)
                                     random_sleep(config['cool_down']['min'], config['cool_down']['max'])
 
                         print(' done!')
@@ -83,7 +84,7 @@ def begin(locations: list, start_year: int = 1900, end_year: int = 2014):
                     )
 
 
-def process_results(items: list, location: dict, death_year: int, birth_year: int):
+def process_results(items: list, location: dict, death_year: int, birth_year: int, ua):
     results = read_results(location['state'], location['county'], location['zip_code'], death_year, birth_year)
     for item in items:
         name = item['record']['name']
@@ -109,12 +110,15 @@ def process_results(items: list, location: dict, death_year: int, birth_year: in
                     'year': d.year,
                     'original': field['value']
                 }
-
-        results.append({
+        person = {
             'name': name,
             'location': location,
             'birth': birth,
             'death': death
-        })
+        }
+        results.append(person)
+
+        if location['state'] == 'MI':
+            michigan.hunt_mi_zombie(person, ua)
 
     save_results(results, location['state'], location['county'], location['zip_code'], death_year, birth_year)

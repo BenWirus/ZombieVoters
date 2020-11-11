@@ -6,7 +6,7 @@ import pathlib
 
 
 def send_request(proxies: dict, location: dict, birth_year: int, death_year: int, offset: int, guest_id: str,
-                 bearer_token: str, useragent: str):
+                 bearer_token: str, useragent: str, status_only: bool = False):
     url = 'https://familygraphql.myheritage.com/search_in_historical_records/'
     payload = {
         'query': build_query_param(),
@@ -20,6 +20,9 @@ def send_request(proxies: dict, location: dict, birth_year: int, death_year: int
         'User-Agent': useragent
     }
     response = requests.request("POST", url, data=payload, proxies=proxies, headers=headers)
+
+    if status_only:
+        return response.status_code
 
     if response.status_code == 401 or response.status_code == 403:
         print('You need to obtain a new bearer_token and guest_id and place them in your config.')
