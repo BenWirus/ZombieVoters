@@ -1,7 +1,19 @@
 {
-  "username": "",
-  "password": "",
-  "max_year": 2014,
-  "max_page": 250,
-  "page_cooldown_sec": 1
+  "proxy": {
+    "enable": false,
+    "locations": [
+      "uk",
+      "us",
+      "ca"
+    ],
+    "anonymous": true
+  },
+  "cool_down": {
+    "min": 0,
+    "max": 2
+  },
+  "myheritage": {
+    "bearer_token": "",
+    "guest_id": ""
+  }
 }

@@ -233,6 +233,10 @@ $RECYCLE.BIN/
 *.lnk
 
 chromedriver
+geckodriver
 chromedriver.exe
+geckodriver.exe
 *.zip
 config.json
+
+pia.py
