@@ -48,7 +48,7 @@ def begin(locations: list, start_year: int = 1900, end_year: int = 2014):
                     if total > 0:  # At least one page of data
                         print('processing page 0...', end=' ')
                         records = data['data']['search_query_upload']['response']['results']['data']
-                        process_results(records, location, death_year, birth_year, user_agent)
+                        process_results(records, location, death_year, birth_year, user_agent, proxies)
 
                         if total > per_page:  # Handle multiple pages of data
                             pages = calculate_pagination(per_page, total)
@@ -68,7 +68,7 @@ def begin(locations: list, start_year: int = 1900, end_year: int = 2014):
                                     print('processing page ' + str(page['page']) + '...', end=' ')
                                     data = json.loads(result.text)
                                     records = data['data']['search_query_upload']['response']['results']['data']
-                                    process_results(records, location, death_year, birth_year, user_agent)
+                                    process_results(records, location, death_year, birth_year, user_agent, proxies)
                                     random_sleep(config['cool_down']['min'], config['cool_down']['max'])
 
                         print(' done!')
@@ -84,7 +84,7 @@ def begin(locations: list, start_year: int = 1900, end_year: int = 2014):
                     )
 
 
-def process_results(items: list, location: dict, death_year: int, birth_year: int, ua):
+def process_results(items: list, location: dict, death_year: int, birth_year: int, ua: str, proxies: dict):
     results = read_results(location['state'], location['county'], location['zip_code'], death_year, birth_year)
     for item in items:
         name = item['record']['name']
@@ -119,6 +119,6 @@ def process_results(items: list, location: dict, death_year: int, birth_year: in
         results.append(person)
 
         if location['state'] == 'MI':
-            michigan.hunt_mi_zombie(person, ua)
+            michigan.hunt_mi_zombie(person, ua, proxies)
 
     save_results(results, location['state'], location['county'], location['zip_code'], death_year, birth_year)

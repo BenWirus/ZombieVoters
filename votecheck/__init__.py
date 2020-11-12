@@ -1,6 +1,9 @@
 from time import sleep
 from fake_useragent import UserAgent
 from proxyscrape import create_collector
+from requests.adapters import HTTPAdapter
+from requests.packages.urllib3.util.retry import Retry
+import requests
 import random
 import json
 import pathlib
@@ -94,3 +97,25 @@ def calculate_pagination(per_page, total):
         offset = per_page * page
         offset_positions.append({'page': page, 'offset': offset})
     return offset_positions
+
+
+def send_http_post(url, payload, headers, proxies):
+    requests.packages.urllib3.disable_warnings(requests.packages.urllib3.exceptions.InsecureRequestWarning)
+    with requests.Session() as s:
+        retries = Retry(
+            total=10,
+            backoff_factor=0.5,
+            status_forcelist=[500, 502, 503, 504],
+            method_whitelist=frozenset(['GET', 'POST'])
+        )
+        s.mount('http://', HTTPAdapter(max_retries=retries))
+        s.mount('https://', HTTPAdapter(max_retries=retries))
+        response = s.post(
+            url,
+            data=payload,
+            proxies=proxies,
+            headers=headers,
+            timeout=5.0,
+            verify=False
+        )
+    return response

@@ -1,11 +1,9 @@
-from requests.packages.urllib3.util.retry import Retry
-from votecheck import random_sleep
+from votecheck import send_http_post
 import pathlib
 import json
-import requests
 
 
-def hunt_mi_zombie(person, ua):
+def hunt_mi_zombie(person: dict, ua: str, proxies: dict):
     html = get_reg_status(
         person['name']['first'],
         person['name']['last'],
@@ -17,7 +15,7 @@ def hunt_mi_zombie(person, ua):
     save_outputs(html, person)
 
 
-def save_outputs(html_results, person_data):
+def save_outputs(html_results: str, person_data: dict):
     base_dir = 'output/checked/'
     file_name = '_'.join([
         person_data['location']['state'],
@@ -61,7 +59,7 @@ def save_outputs(html_results, person_data):
         json.dump(person_data, json_file)
 
 
-def is_registered(html):
+def is_registered(html: str):
     # registered = '<span class="ccd-page-heading">Yes, you are registered!</span>'
     registered = 'Yes, you are registered!'
     if registered in html:
@@ -69,48 +67,37 @@ def is_registered(html):
     return False
 
 
-def has_voted(html):
+def has_voted(html: str):
     if 'Ballot received' in html:
         return True
     return False
 
 
-def get_reg_status(first_name: str, last_name: str, birth_month: int, birth_year: int, zip_code: str, ua: str):
+def get_reg_status(first_name: str, last_name: str, birth_month: int, birth_year: int, zip_code: str, ua: str,
+                   proxies: dict):
     """
     Sends HTTP requests with form data to MI's voter registration page
     """
-    # Disable HTTPS warnings
-    requests.packages.urllib3.disable_warnings(requests.packages.urllib3.exceptions.InsecureRequestWarning)
     # Michigan's form on https://mvic.sos.state.mi.us/Voter/Index
     url = 'https://mvic.sos.state.mi.us/Voter/SearchByName'
     # Set the user agent header to a random one
     headers = {'User-Agent': ua}
-    # HTTP retry ints crappy way to do this, but it works
-    tries = 0
-    max_tries = 3
-    while tries <= max_tries:
-        try:
-            tries += 1
-            # Send the HTTP POST with the form data
-            resp = requests.post(url, data={
-                'FirstName': first_name,
-                'LastName': last_name,
-                'NameBirthMonth': str(birth_month),
-                'NameBirthYear': str(birth_year),
-                'ZipCode': zip_code,
-                'Dln': None,
-                'DlnBirthMonth': 0,
-                'DlnBirthYear': 0,
-                'DpaID': 0,
-                'Months': None,
-                'VoterNotFound': False,
-                'TransistionVoter': False
-            }, headers=headers, verify=False, timeout=2.000)
-            # Return the HTML
-            return resp.text
-        except Exception:
-            # If something wen wrong, try again
-            if tries <= max_tries:
-                random_sleep(1, 3)
-            else:
-                return False
+    # payload
+    payload = {
+        'FirstName': first_name,
+        'LastName': last_name,
+        'NameBirthMonth': str(birth_month),
+        'NameBirthYear': str(birth_year),
+        'ZipCode': zip_code,
+        'Dln': None,
+        'DlnBirthMonth': 0,
+        'DlnBirthYear': 0,
+        'DpaID': 0,
+        'Months': None,
+        'VoterNotFound': False,
+        'TransistionVoter': False
+    }
+    # Send the HTTP POST with the form data
+    resp = send_http_post(url, payload, headers, proxies)
+    # Return the HTML
+    return resp.text

@@ -1,5 +1,4 @@
-from votecheck import read_json_file, write_json_file
-import requests
+from votecheck import read_json_file, write_json_file, send_http_post
 import json
 import time
 import pathlib
@@ -19,8 +18,7 @@ def send_request(proxies: dict, location: dict, birth_year: int, death_year: int
     headers = {
         'User-Agent': useragent
     }
-    response = requests.request("POST", url, data=payload, proxies=proxies, headers=headers)
-
+    response = send_http_post(url, payload, headers, proxies)
     if status_only:
         return response.status_code
 
