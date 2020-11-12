@@ -10,7 +10,8 @@ def hunt_mi_zombie(person: dict, ua: str, proxies: dict):
         person['birth']['month'],
         person['birth']['day'],
         person['location']['zip_code'],
-        ua
+        ua,
+        proxies
     )
     save_outputs(html, person)
 
