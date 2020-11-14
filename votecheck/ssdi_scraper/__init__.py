@@ -11,8 +11,6 @@ import json
 def begin(locations: list, start_year: int = 1900, end_year: int = 2014):
     config = read_json_file('./config.json')
     proxies = {}
-    guest_id = config['myheritage']['guest_id']
-    bearer_token = config['myheritage']['bearer_token']
     user_agent = get_user_agent()
     per_page = 50
 
@@ -26,6 +24,8 @@ def begin(locations: list, start_year: int = 1900, end_year: int = 2014):
         for birth_year in range(start_year, death_year + 1):
             for location in locations:
                 config = read_json_file('./config.json')
+                guest_id = config['myheritage']['guest_id']
+                bearer_token = config['myheritage']['bearer_token']
                 segment = get_segment(location['zip_code'], death_year, birth_year)
                 if not segment['completed']:  # This segment is not completed yet
                     print('Querying for deaths in the year ' + str(death_year) + ' that were born in ' +
